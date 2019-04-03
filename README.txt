@@ -6,21 +6,16 @@ that the user can change:
 
 Input Fields:
     1. Alpha Value: The alpha value of the particles in the flow field. Uses integer values.
-    
-    2. Vector Field Offset: The vector field offset controls how drastic the vector field changes over time.
-    It is best to use values between 0 and 1. Uses float values.
 
-    3. Noise Scale: The noise scale to be applied to creating the vectors of the vector field. Uses float values.
+    2. Stroke Weight: The stroke weight of the particles in the flow field. Uses integer values.
 
-    4. Stroke Weight: The stroke weight of the particles in the flow field. Uses integer values.
-
-    5. Vector Magnitude: The strength of the vectors within the vector field. The higher the value the greater
+    3. Vector Magnitude: The strength of the vectors within the vector field. The higher the value the greater
     the directional effect the vectors have on the particles in the flow field. Uses float values.
 
-    6. Number Of Particles: The numebr of particles that are follow the vector field in the flow field. When set,
+    4. Number Of Particles: The numebr of particles that are follow the vector field in the flow field. When set,
     the program will clear the screen and create a new particles array. Uses integer values.
 
-    7. Size of Vector Field Grid: The size of the 2D vector field that the particles follow. When set, the program
+    5. Size of Vector Field Grid: The size of the 2D vector field that the particles follow. When set, the program
     will set clear the screen, change the noise seed value, and create a 2D vector field.
 
 Buttons:
@@ -39,5 +34,12 @@ Radio Buttons:
     3. White Background: Changes the color mode to RGB, background to white, and sets the particle color to black.
 
     4. HSB with White Background: Changes the color mode to HSB, background to white, and sets the particle color to black.
+
+Sliders:
+    1. Vector Field Offset: The vector field offset controls how drastic the vector field changes over time.
+
+    2. Noise Scale: The noise scale to be applied to creating the vectors of the vector field. Uses float values.
+
+    3. Rotation Angle of FLow Field: The angle to rotate the vectors that comprise the flow field.
 
 NOTE: Best to have the web browser at 100% zoom and full screen.

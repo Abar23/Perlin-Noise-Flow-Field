@@ -14,12 +14,14 @@ var perlinNoiseFlowField;
 
 // Input fields for user interactivity
 var alphaInput, 
-  vectorFieldOffsetInput,
-  noiseScaleInput, 
   strokeWeightInput, 
   vectorMagnitudeInput, 
   numParticlesInput,
   vectorFieldSizeInput;
+
+var vectorFieldOffsetSlider,
+  noiseScaleSlider,
+  flowFieldRotationAngleSlider;
 
 // HTML paragraph elements to display information about the perlin noise flow field
  var alphaElement, 
@@ -28,7 +30,8 @@ var alphaInput,
   strokeWeightElement, 
   vectorMagnitudeElement, 
   numParticlesElement, 
-  vectorFieldSizeElement;
+  vectorFieldSizeElement,
+  flowFieldRotationAngleElement;
 
 // Buttons to process user input, clearing the screen, and reseting the perlin noise flow field
 var submitButton, 
@@ -70,6 +73,7 @@ function setup()
 function draw()
 {
   UpdateColorRadioButtons();
+  UpdateSliders();
   perlinNoiseFlowField.Update();
   perlinNoiseFlowField.Draw();
 }
@@ -99,10 +103,18 @@ function SetupUI()
   clearButton.mousePressed(ClearBackground); 
   resetButton.mousePressed(Reset);
 
+  // Create all sliders
+  vectorFieldOffsetSlider = createSlider(0.00001, 1, 0.00001, 0.00001);
+  noiseScaleSlider = createSlider(0.09, 1, 0.09, 0.01);
+  flowFieldRotationAngleSlider = createSlider(0, 360, 0, 1);
+
+  // Set the style of the slider objects
+  vectorFieldOffsetSlider.style('width', '200px');
+  noiseScaleSlider.style('width', '200px');
+  flowFieldRotationAngleSlider.style('width', '200px');
+
   // Create all input fields
   alphaInput = createInput();
-  vectorFieldOffsetInput = createInput();
-  noiseScaleInput = createInput();
   strokeWeightInput = createInput();
   vectorMagnitudeInput = createInput();
   numParticlesInput = createInput();
@@ -116,16 +128,17 @@ function SetupUI()
   vectorMagnitudeElement = createElement('p', 'Input Vector Magnitude (currently ' + perlinNoiseFlowField.GetVectorMagnitude() + ')');
   numParticlesElement = createElement('p', 'Input Number of Particles (currently ' + perlinNoiseFlowField.GetNumberOfParticles() + ')');
   vectorFieldSizeElement = createElement('p', 'Input Size of Vector Field Grid (currently ' + perlinNoiseFlowField.GetVectorFieldSize() + ')');
+  flowFieldRotationAngleElement = createElement('p', 'Rotation Angle of Flow Field (currently ' + perlinNoiseFlowField.GetRotationalAngleOffset() + String.fromCharCode(176) + ')');
 
   // Position all buttons, HTML elements, input fields, and radio buttons
   alphaInput.position(0, height + 50);
   alphaElement.position(0, height + 10);
 
-  vectorFieldOffsetInput.position(250, height + 50);
-  vectorFieldEOffsetElement.position(vectorFieldOffsetInput.x,  height + 10);
+  vectorFieldOffsetSlider.position(250, height + 50);
+  vectorFieldEOffsetElement.position(vectorFieldOffsetSlider.x,  height + 10);
 
-  noiseScaleInput.position(550, height + 50);
-  noiseScaleElement.position(noiseScaleInput.x, height + 10);
+  noiseScaleSlider.position(550, height + 50);
+  noiseScaleElement.position(noiseScaleSlider.x, height + 10);
 
   strokeWeightInput.position(800, height + 50);
   strokeWeightElement.position(strokeWeightInput.x, height + 10);
@@ -136,8 +149,11 @@ function SetupUI()
   numParticlesInput.position(0, alphaInput.y + 50);
   numParticlesElement.position(0, numParticlesInput.y - numParticlesInput.height - 15);
 
-  vectorFieldSizeInput.position(350, alphaInput.y + 50);
+  vectorFieldSizeInput.position(300, alphaInput.y + 50);
   vectorFieldSizeElement.position(vectorFieldSizeInput.x, vectorFieldSizeInput.y - vectorFieldSizeInput.height - 15);
+
+  flowFieldRotationAngleSlider.position(625, alphaInput.y + 50);
+  flowFieldRotationAngleElement.position(flowFieldRotationAngleSlider.x, flowFieldRotationAngleSlider.y - flowFieldRotationAngleSlider.height - 15);
 
   submitButton.position(0, height + 150);
   clearButton.position(submitButton.width, submitButton.y);
@@ -207,6 +223,20 @@ function UpdateColorRadioButtons()
 }
 
 /*
+ * Update the perlin noise attributes based upon the current value of the sliders
+ */
+function UpdateSliders()
+{
+  var value = noiseScaleSlider.value();
+  perlinNoiseFlowField.SetNoiseScale(value);
+  value = vectorFieldOffsetSlider.value();
+  perlinNoiseFlowField.SetVectorFieldOffset(value);
+  value = flowFieldRotationAngleSlider.value();
+  perlinNoiseFlowField.SetRotationalAngleOffset(value);
+  UpdateElements();
+}
+
+/*
  * Reset the perlin noise flow field
  */
 function Reset()
@@ -214,6 +244,9 @@ function Reset()
   ClearBackground();
   perlinNoiseFlowField.Reset();
   UpdateElements();
+  flowFieldRotationAngleSlider.value(0);
+  noiseScaleSlider.value(DEFAULT_NOISE_SCALE);
+  vectorFieldOffsetSlider.value(DEFAULT_VECTOR_FIELD_OFFSET);
 }
 
 /*
@@ -227,22 +260,6 @@ function ProcessInput()
   {
     perlinNoiseFlowField.SetAlpha(parseInt(value));
     alphaInput.value(''); 
-  }
-
-  // Process value of the vector field offset input field
-  value = vectorFieldOffsetInput.value();
-  if(value != '')
-  {
-    perlinNoiseFlowField.SetVectorFieldOffset(parseFloat(value));
-    vectorFieldOffsetInput.value(''); 
-  }
-
-  // Process value of the noise scale input field
-  value = noiseScaleInput.value();
-  if(value != '')
-  {
-    perlinNoiseFlowField.SetNoiseScale(parseFloat(value));
-    noiseScaleInput.value('');
   }
 
   // Process value of the stroke weight input field
@@ -297,6 +314,7 @@ function UpdateElements()
   vectorMagnitudeElement.html('Input Vector Magnitude (currently ' + perlinNoiseFlowField.GetVectorMagnitude() + ')', false);
   numParticlesElement.html('Input Number of Particles (currently ' + perlinNoiseFlowField.GetNumberOfParticles() + ')', false);
   vectorFieldSizeElement.html('Input Size of Vector Field Grid (currently ' + perlinNoiseFlowField.GetVectorFieldSize() + ')', false);
+  flowFieldRotationAngleElement.html('Rotation Angle of Flow Field (currently ' + perlinNoiseFlowField.GetRotationalAngleOffset() + String.fromCharCode(176) + ')', false);
 }
 
 /*

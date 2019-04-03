@@ -30,6 +30,7 @@ class FlowField
     this.flowStrokeWeight = flowStrokeWeight;
     this.colorOfParticles = BLACK;
     this.colorMode = RGB;
+    this.rotationalAngleOffset = 0;
     this.CreateParticles(numberOfParticles);
     this.CreateNewVectorField();
   }
@@ -69,10 +70,11 @@ class FlowField
   {
     this.alpha = DEFAULT_ALPHA;
     this.noiseScale = DEFAULT_NOISE_SCALE;
-    this.strokeWeight = DEFAULT_STROKE_WEIGHT;
+    this.flowStrokeWeight = DEFAULT_STROKE_WEIGHT;
     this.vectorFieldGridSize = DEFAULT_VECTOR_FIELD_SIZE;
     this.vectorFieldOffset = DEFAULT_VECTOR_FIELD_OFFSET;
     this.vectorMagnitude = DEFAULT_VECTOR_MAGNITUDE;
+    this.rotationalAngleOffset = 0;
     this.CreateParticles(DEFAULT_NUM_PARTICLES);
     this.CreateNewVectorField();
   }
@@ -142,7 +144,7 @@ class FlowField
       for(let j = 0; j < this.vectorFieldGridSize; j++)
       {
         // Use 3D perlin noise to generate a angle.
-        let angle = noise(j * this.noiseScale, i * this.noiseScale, this.vectorFieldShift) * TWO_PI;
+        let angle = noise(j * this.noiseScale, i * this.noiseScale, this.vectorFieldShift) * TWO_PI + radians(this.rotationalAngleOffset);
         // Create a vector from the angle and place it into the 2D vector field array
         this.vectorField[i][j] = p5.Vector.fromAngle(angle).setMag(this.vectorMagnitude);
       }
@@ -330,5 +332,23 @@ class FlowField
     {
       colorMode(this.colorMode, HSB_RANGE);
     }
+  }
+
+ /*
+  * Returns the rotational angle
+  */
+  GetRotationalAngleOffset()
+  {
+    return this.rotationalAngleOffset;
+  }
+
+ /*
+  * Set new rotational angle offset for the flow field
+  * @param newAngle
+  *         New rotational angle offset for the perlin noise flow field
+  */
+  SetRotationalAngleOffset(newAngle)
+  {
+    (this.rotationalAngleOffset >= 0 || this.rotationalAngleOffset <= 360) ? this.rotationalAngleOffset = newAngle: this.rotationalAngleOffset = 0;
   }
 }
