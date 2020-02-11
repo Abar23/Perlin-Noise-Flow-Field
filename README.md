@@ -11,7 +11,7 @@ movement.
 Controls
 ========
 
-## Input Fields:
+### Input Fields:
 
 1. Alpha Value: The alpha value of the particles in the flow field. Uses integervalues.
 
@@ -26,7 +26,7 @@ the program will clear the screen and create a new particles array. Uses integer
 5. Size of Vector Field Grid: The size of the 2D vector field that the particlesfollow. When set, the program
 will set clear the screen, change the noise seed value, and create a 2D vectorfield.
 
-## Buttons:
+### Buttons:
     
  1. Submit Button: When clicked, it will parse the input fields and update the properties of the perlin noise flow
  field.
@@ -35,7 +35,7 @@ will set clear the screen, change the noise seed value, and create a 2D vectorfi
 
  3. Reset Button: Resets the perlin noise flow field to its default values.
 
-## Radio Buttons:
+### Radio Buttons:
     
 1. Black Background: Changes the color mode to RGB, background to black, and setsthe particle color to white.
 
@@ -45,7 +45,7 @@ will set clear the screen, change the noise seed value, and create a 2D vectorfi
 
 4. HSB with White Background: Changes the color mode to HSB, background to white,and sets the particle color to black.
 
-## Sliders:
+### Sliders:
     
 1. Vector Field Offset: The vector field offset controls how drastic the vectorfield changes over time.
 
